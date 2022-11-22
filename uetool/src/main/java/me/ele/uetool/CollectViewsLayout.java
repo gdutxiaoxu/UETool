@@ -5,18 +5,21 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.*;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
+
 import me.ele.uetool.base.DimenUtil;
 import me.ele.uetool.base.Element;
 import me.ele.uetool.base.ReflectionP;
 
 import java.lang.reflect.Field;
 import java.util.*;
+
 import me.ele.uetool.base.ReflectionP.Func;
 
 import static me.ele.uetool.base.DimenUtil.*;
@@ -106,25 +109,20 @@ public class CollectViewsLayout extends View {
                                 mRootsField.setAccessible(true);
                                 List viewRootImpls;
                                 viewRootImpls = (List) mRootsField.get(mGlobalField.get(windowManager));
-                                for (int i = viewRootImpls.size() - 1; i >= 0; i--) {
-                                    Class clazz = Class.forName("android.view.ViewRootImpl");
-                                    Object object = viewRootImpls.get(i);
-                                    WindowManager.LayoutParams layoutParams = null;
-                                    try {
-                                        Field mWindowAttributesField = clazz.getDeclaredField("mWindowAttributes");
-                                        mWindowAttributesField.setAccessible(true);
-                                        layoutParams = (WindowManager.LayoutParams) mWindowAttributesField.get(object);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                boolean isFind = findDecorView(viewRootImpls, targetActivity, new ITargetDecorView() {
+                                    @Override
+                                    public boolean isTarget(WindowManager.LayoutParams layoutParams, View decorView) {
+                                        return layoutParams != null && layoutParams.getTitle().toString().contains(targetActivity.getClass().getName());
                                     }
-                                    Field mViewField = clazz.getDeclaredField("mView");
-                                    mViewField.setAccessible(true);
-                                    View decorView = (View) mViewField.get(object);
-                                    if ((layoutParams != null && layoutParams.getTitle().toString().contains(targetActivity.getClass().getName()))
-                                            || getTargetDecorView(targetActivity, decorView) != null) {
-                                        createElements(decorView);
-                                        break;
-                                    }
+                                });
+
+                                if (!isFind) {
+                                    findDecorView(viewRootImpls, targetActivity, new ITargetDecorView() {
+                                        @Override
+                                        public boolean isTarget(WindowManager.LayoutParams layoutParams, final View decorView) {
+                                            return getTargetDecorView(targetActivity, decorView) != null;
+                                        }
+                                    });
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -151,6 +149,35 @@ public class CollectViewsLayout extends View {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean findDecorView(List viewRootImpls, Activity targetActivity, @NonNull ITargetDecorView iTargetDecorView) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        Class clazz = Class.forName("android.view.ViewRootImpl");
+        for (int i = viewRootImpls.size() - 1; i >= 0; i--) {
+            Object object = viewRootImpls.get(i);
+            WindowManager.LayoutParams layoutParams = null;
+            try {
+
+                Field mWindowAttributesField = clazz.getDeclaredField("mWindowAttributes");
+                mWindowAttributesField.setAccessible(true);
+                layoutParams = (WindowManager.LayoutParams) mWindowAttributesField.get(object);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Field mViewField = clazz.getDeclaredField("mView");
+            mViewField.setAccessible(true);
+            View decorView = (View) mViewField.get(object);
+            if (iTargetDecorView.isTarget(layoutParams, decorView)) {
+                createElements(decorView);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public interface ITargetDecorView {
+
+        boolean isTarget(WindowManager.LayoutParams layoutParams, View decorView);
     }
 
     @Override
