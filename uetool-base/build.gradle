@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
+
 android {
     compileSdkVersion versions.compileSdk
 
@@ -18,4 +19,18 @@ android {
     lintOptions {
         abortOnError false
     }
+}
+
+apply plugin:"io.github.gdutxiaoxu.publish"
+publishMavenConfig {
+    // group name,没有配置的话默认是 com.netease， (1.0.8 版本默认值是 com.netease.cc）
+    groupId = "io.github.gdutxiaoxu"
+    // name，没有配置的话，默认是 libraryName
+    artifactId = "uetool-base"
+    // version，没有配置的话，默认是 0.1 (1.0.8 版本默认值是 1.0.0）
+    version = "0.11"
+    // 默认是 false，会发布到 release 仓库
+    isSnapshot = false
+    // 是否过滤 debug buildType，默认为 false
+    isFilterDebug = true
 }

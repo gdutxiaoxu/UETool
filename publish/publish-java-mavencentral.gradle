@@ -1,0 +1,126 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+def isAndroid = getProject().getPluginManager().hasPlugin("com.android.library")
+
+java {
+    withJavadocJar()
+}
+
+def javaSourceTask = task("sourcesJar", type: Jar) {
+    classifier = 'sources'
+    def srcDirs = []
+    def sources = project.sourceSets.main
+    ['java', 'groovy', 'scala', 'kotlin'].each {
+        if (sources.hasProperty(it))
+            srcDirs << sources[it].srcDirs
+    }
+
+    from srcDirs
+}
+
+
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    println "Found secret props file, loading props"
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        project.ext.set(name, value)
+        println("name is " + name + ";value is " + value)
+    }
+    println("ossrhUsername  is ${ext["ossrhUsername"]}")
+    println(" ext.getProperties()")
+    ext.getProperties().entrySet().forEach {
+        println("it  is $it")
+    }
+} else {
+    println "No props file, loading env vars"
+}
+publishing {
+    publications {
+        release(MavenPublication) {
+            // The coordinates of the library, being set from variables that
+            // we'll set up in a moment
+            groupId PUBLISH_GROUP_ID
+            artifactId PUBLISH_ARTIFACT_ID
+            version PUBLISH_VERSION
+
+            // Two artifacts, the `aar` and the sources
+            from project.components.java
+
+
+            artifact javaSourceTask
+
+
+            // Self-explanatory metadata for the most part
+            pom {
+                name = PUBLISH_ARTIFACT_ID
+                description = 'AnchorTask'
+                // If your project has a dedicated site, use its URL here
+                url = 'https://github.com/gdutxiaoxu/'
+                licenses {
+                    license {
+                        //协议类型，一般默认Apache License2.0的话不用改：
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'xujun'
+                        email = 'gdutxiaoxu@163.com'
+                    }
+                }
+                // Version control info, if you're using GitHub, follow the format as seen here
+                scm {
+                    //修改成你的Git地址：
+                    connection = 'scm:git:git@github.com:gdutxiaoxu/AndroidGuide.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:gdutxiaoxu/AndroidGuide.git'
+                    //分支地址：
+                    url = 'https://github.com/gdutxiaoxu/AndroidGuide/tree/master'
+                }
+                // A slightly hacky fix so that your POM will include any transitive dependencies
+                // that your library builds upon
+            }
+        }
+    }
+    repositories {
+        // The repository to publish to, Sonatype/MavenCentral
+        maven {
+            // This is an arbitrary name, you may also use "mavencentral" or
+            // any other name that's descriptive for you
+
+            println("ossrhUsername is $ossrhUsername,ossrhPassword is $ossrhPassword")
+            // The username and password we've fetched earlier
+            credentials {
+                username "$ossrhUsername"
+                password "$ossrhPassword"
+            }
+
+
+            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            // You only need this if you want to publish snapshots, otherwise just set the URL
+            // to the release repo directly
+//            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            url = releasesRepoUrl
+
+
+        }
+    }
+}
+signing {
+    sign publishing.publications
+}
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
