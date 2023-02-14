@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -24,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,8 +62,8 @@ public class AttrsDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uet_dialog_attrs);
         vList = findViewById(R.id.list);
-        vList.setAdapter(adapter);
         vList.setLayoutManager(layoutManager);
+        vList.setAdapter(adapter);
     }
 
     public void show(Element element) {
@@ -409,7 +409,7 @@ public class AttrsDialog extends Dialog {
         public static class SwitchViewHolder extends BaseViewHolder<SwitchItem> {
 
             private TextView vName;
-            private SwitchCompat vSwitch;
+            private Switch vSwitch;
 
             public SwitchViewHolder(View itemView, final AttrDialogCallback callback) {
                 super(itemView);

@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.*;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -254,7 +257,52 @@ public class CollectViewsLayout extends View {
                     parentElement = parentElement.getParentElement();
                 }
                 target = parentElement == null ? element : parentElement;
+                Log.i(TAG, String.format("getTargetElement: target is %s", target));
                 break;
+            }
+        }
+        if (target == null) {
+            Toast.makeText(getContext(), getResources().getString(R.string.uet_target_element_not_found, x, y), Toast.LENGTH_SHORT).show();
+        }
+        printAll(x, y);
+        return target;
+    }
+
+    private static final String TAG = "CollectViewsLayout";
+
+    private Element printAll(float x, float y) {
+        int height = getScreenHeight();
+        Log.i(TAG, String.format("printAll: x is %s, y is %s, height is %s", x, y, height));
+        Element target = null;
+        int j = 0;
+        int k = 0;
+        for (int i = elements.size() - 1; i >= 0; i--) {
+            final Element element = elements.get(i);
+            if (element.getRect().contains((int) x, (int) y)) {
+                if (isParentNotVisible(element.getParentElement())) {
+                    continue;
+                }
+                if (element != childElement) {
+                    childElement = element;
+                    parentElement = element;
+                } else if (parentElement != null) {
+                    parentElement = parentElement.getParentElement();
+                }
+                target = parentElement == null ? element : parentElement;
+                View view = target.getView();
+                j++;
+
+                if (view.getHeight() >= height && view.getBackground() != null) {
+                    k++;
+                    Drawable background = view.getBackground();
+                    String drawableColor = "0";
+                    if (background instanceof ColorDrawable) {
+                        ColorDrawable colorDrawable = (ColorDrawable) background;
+                        drawableColor = Integer.toHexString(colorDrawable.getColor());
+                    }
+                    Log.i(TAG, String.format("printAll: view is %s, drawableColor is  %s, background i %s, j is %s, k is %s", view, drawableColor, background, j, k));
+                }
+
             }
         }
         if (target == null) {

@@ -26,9 +26,33 @@ publishMavenConfig {
     // name，没有配置的话，默认是 libraryName
     artifactId = "uetool-frecso"
     // version，没有配置的话，默认是 0.1 (1.0.8 版本默认值是 1.0.0）
-    version = "0.11"
+    version = "0.16-local"
     // 默认是 false，会发布到 release 仓库
     isSnapshot = false
     // 是否过滤 debug buildType，默认为 false
     isFilterDebug = false
+
+    pomConfig {
+
+        name = "uetool-frecso"
+        description = 'uetool-frecso'
+        // If your project has a dedicated site, use its URL here
+        url = 'https://github.com/gdutxiaoxu/UETool'
+
+        license {
+            name = 'The Apache License, Version 2.0'
+            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        }
+        developer {
+            name = 'xujun'
+            email = 'gdutxiaoxu@163.com'
+        }
+
+        scm {
+            connection = 'scm:git:git@github.com:gdutxiaoxu/UETool.git'
+            developerConnection = 'scm:git:ssh://git@github.com:gdutxiaoxu/UETool.git'
+            //分支地址：
+            url = 'https://github.com/gdutxiaoxu/UETool/tree/master'
+        }
+    }
 }

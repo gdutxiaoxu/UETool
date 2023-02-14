@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="uet_Theme.AppCompat.Translucent" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="uet_Theme.AppCompat.Translucent" parent="@android:style/Theme.Light">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

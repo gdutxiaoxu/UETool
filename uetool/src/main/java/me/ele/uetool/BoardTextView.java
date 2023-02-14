@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 import me.ele.uetool.base.DimenUtil;
 
-public class BoardTextView extends AppCompatTextView {
+public class BoardTextView extends TextView {
 
     private final String defaultInfo = getResources().getString(R.string.uet_name) + " / " + UETool.getInstance().getTargetActivity().getClass().getName();
     private final int padding = DimenUtil.dip2px(3);

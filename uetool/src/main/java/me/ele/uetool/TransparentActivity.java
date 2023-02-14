@@ -3,7 +3,7 @@ package me.ele.uetool;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,7 +17,7 @@ import static android.view.Gravity.BOTTOM;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static me.ele.uetool.TransparentActivity.Type.*;
 
-public class TransparentActivity extends AppCompatActivity {
+public class TransparentActivity extends FragmentActivity {
 
     public static final String EXTRA_TYPE = "extra_type";
 

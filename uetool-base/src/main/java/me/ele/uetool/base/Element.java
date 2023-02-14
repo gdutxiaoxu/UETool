@@ -4,6 +4,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 
+import java.util.Arrays;
+
 public class Element {
 
     private View view;
@@ -75,5 +77,16 @@ public class Element {
     @Override
     public int hashCode() {
         return view != null ? view.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Element{" +
+                "view=" + view +
+                ", originRect=" + originRect +
+                ", rect=" + rect +
+                ", location=" + Arrays.toString(location) +
+                ", parentElement=" + parentElement.getView() +
+                '}';
     }
 }
