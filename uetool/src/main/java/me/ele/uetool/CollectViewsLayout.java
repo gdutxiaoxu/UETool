@@ -268,7 +268,7 @@ public class CollectViewsLayout extends View {
         return target;
     }
 
-    private static final String TAG = "CollectViewsLayout";
+    private static final String TAG = "XJ_CollectViewsLayout";
 
     private Element printAll(float x, float y) {
         int height = getScreenHeight();
@@ -291,16 +291,33 @@ public class CollectViewsLayout extends View {
                 target = parentElement == null ? element : parentElement;
                 View view = target.getView();
                 j++;
-
-                if (view.getHeight() >= height && view.getBackground() != null) {
-                    k++;
-                    Drawable background = view.getBackground();
-                    String drawableColor = "0";
-                    if (background instanceof ColorDrawable) {
-                        ColorDrawable colorDrawable = (ColorDrawable) background;
-                        drawableColor = Integer.toHexString(colorDrawable.getColor());
+                // 高度占满全屏的，并且允许误差 200
+                if ((view.getHeight() >= height || view.getHeight() >= height - 200)) {
+                    int drawingCacheBackgroundColor = view.getDrawingCacheBackgroundColor();
+                    if (view.getBackground() != null) { // 有设置背景的 view
+                        k++;
+                        Drawable background = view.getBackground();
+                        String drawableColor = "0";
+                        if (background instanceof ColorDrawable) {
+                            ColorDrawable colorDrawable = (ColorDrawable) background;
+                            drawableColor = Integer.toHexString(colorDrawable.getColor());
+                        }
+                        Log.d(TAG, String.format("printAll: view is %s, drawableColor is  %s, background i %s, j is %s, k is %s", view, drawableColor, background, j, k));
+                    } else { // 没有设置被禁的 view
+                        Log.d(TAG, String.format("background is null: view is %s ,, j is %s, k is %s", view, j, k));
                     }
-                    Log.i(TAG, String.format("printAll: view is %s, drawableColor is  %s, background i %s, j is %s, k is %s", view, drawableColor, background, j, k));
+
+                } else { // 高度没有占满全屏的
+                    if (view.getBackground() != null) {
+                        k++;
+                        Drawable background = view.getBackground();
+                        String drawableColor = "0";
+                        if (background instanceof ColorDrawable) {
+                            ColorDrawable colorDrawable = (ColorDrawable) background;
+                            drawableColor = Integer.toHexString(colorDrawable.getColor());
+                        }
+                        Log.d(TAG, String.format("height is small: view is %s, drawableColor is  %s, background i %s, height is %s", view, drawableColor, background, height));
+                    }
                 }
 
             }
