@@ -8,11 +8,13 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
     }
+    
+    def supportLibrary = "27.1.1"
 
     dependencies {
-        api "com.android.support:appcompat-v7:27.1.1"
-        api "com.android.support:recyclerview-v7:27.1.1"
-        api "com.android.support:support-v4:27.1.1"
+        api "com.android.support:appcompat-v7:${supportLibrary}"
+        api "com.android.support:recyclerview-v7:${supportLibrary}"
+        api "com.android.support:support-v4:${supportLibrary}"
         implementation "com.github.tiann:FreeReflection:3.1.0"
     }
 
@@ -33,4 +35,28 @@ publishMavenConfig {
     isSnapshot = false
     // 是否过滤 debug buildType，默认为 false
     isFilterDebug = true
+
+    pomConfig {
+
+        name = "uetool-base"
+        description = 'uetool-base'
+        // If your project has a dedicated site, use its URL here
+        url = 'https://github.com/gdutxiaoxu/UETool'
+
+        license {
+            name = 'The Apache License, Version 2.0'
+            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        }
+        developer {
+            name = 'xujun'
+            email = 'gdutxiaoxu@163.com'
+        }
+
+        scm {
+            connection = 'scm:git:git@github.com:gdutxiaoxu/UETool.git'
+            developerConnection = 'scm:git:ssh://git@github.com:gdutxiaoxu/UETool.git'
+            //分支地址：
+            url = 'https://github.com/gdutxiaoxu/UETool/tree/master'
+        }
+    }
 }
