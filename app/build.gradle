@@ -43,13 +43,24 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
-    debugImplementation project(':uetool')
-    debugImplementation project(':uetool-fresco')
-    debugImplementation project(':uetool-base')
-    releaseImplementation project(':uetool-no-op')
+//    debugImplementation project(':uetool')
+//    debugImplementation project(':uetool-fresco')
+//    debugImplementation project(':uetool-base')
+//    releaseImplementation project(':uetool-no-op')
 //  debugImplementation "me.ele:uetool:${versions.release}"
 //  debugImplementation "me.ele:uetool-fresco:${versions.release}"
 //  releaseImplementation "me.ele:uetool-no-op:${versions.release}"
+    debugImplementation ('io.github.gdutxiaoxu:uetool:0.11'){
+        exclude group: "com.android.support", module: "appcompat-v7"
+        exclude group: "com.android.support", module: "recyclerview-v7"
+        exclude group: "com.android.support", module: "support-v4"
+    }
+    debugImplementation ('io.github.gdutxiaoxu:uetool-base:0.11'){
+        exclude group: "com.android.support", module: "appcompat-v7"
+        exclude group: "com.android.support", module: "recyclerview-v7"
+        exclude group: "com.android.support", module: "support-v4"
+    }
+    releaseImplementation 'io.github.gdutxiaoxu:uetool-no-op:0.11'
 
     compileOnly 'me.ele:lancet-base:1.0.6'
 

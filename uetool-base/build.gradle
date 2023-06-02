@@ -15,7 +15,8 @@ android {
         api "com.android.support:appcompat-v7:${supportLibrary}"
         api "com.android.support:recyclerview-v7:${supportLibrary}"
         api "com.android.support:support-v4:${supportLibrary}"
-        implementation "com.github.tiann:FreeReflection:3.1.0"
+//        implementation "com.github.tiann:FreeReflection:3.1.0"
+        implementation "io.github.gdutxiaoxu:FreeReflection:3.1.0"
     }
 
     lintOptions {
@@ -30,7 +31,7 @@ publishMavenConfig {
     // name，没有配置的话，默认是 libraryName
     artifactId = "uetool-base"
     // version，没有配置的话，默认是 0.1 (1.0.8 版本默认值是 1.0.0）
-    version = "0.11"
+    version = "0.21"
     // 默认是 false，会发布到 release 仓库
     isSnapshot = false
     // 是否过滤 debug buildType，默认为 false
@@ -39,7 +40,7 @@ publishMavenConfig {
     pomConfig {
 
         name = "uetool-base"
-        description = 'uetool-base'
+        description = 'uetool-base project'
         // If your project has a dedicated site, use its URL here
         url = 'https://github.com/gdutxiaoxu/UETool'
 
