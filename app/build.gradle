@@ -32,35 +32,35 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:27.1.1"
-    implementation "com.android.support:design:27.1.1"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "com.facebook.fresco:fresco:${versions.fresco}"
     implementation "com.facebook.fresco:animated-gif:${versions.fresco}"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
-//    debugImplementation project(':uetool')
-//    debugImplementation project(':uetool-fresco')
-//    debugImplementation project(':uetool-base')
-//    releaseImplementation project(':uetool-no-op')
+    debugImplementation project(':uetool')
+    debugImplementation project(':uetool-fresco')
+    debugImplementation project(':uetool-base')
+    releaseImplementation project(':uetool-no-op')
 //  debugImplementation "me.ele:uetool:${versions.release}"
 //  debugImplementation "me.ele:uetool-fresco:${versions.release}"
 //  releaseImplementation "me.ele:uetool-no-op:${versions.release}"
-    debugImplementation ('io.github.gdutxiaoxu:uetool:0.11'){
-        exclude group: "com.android.support", module: "appcompat-v7"
-        exclude group: "com.android.support", module: "recyclerview-v7"
-        exclude group: "com.android.support", module: "support-v4"
-    }
-    debugImplementation ('io.github.gdutxiaoxu:uetool-base:0.11'){
-        exclude group: "com.android.support", module: "appcompat-v7"
-        exclude group: "com.android.support", module: "recyclerview-v7"
-        exclude group: "com.android.support", module: "support-v4"
-    }
-    releaseImplementation 'io.github.gdutxiaoxu:uetool-no-op:0.11'
+//    debugImplementation ('io.github.gdutxiaoxu:uetool:0.11'){
+//        exclude group: "com.android.support", module: "appcompat-v7"
+//        exclude group: "com.android.support", module: "recyclerview-v7"
+//        exclude group: "com.android.support", module: "support-v4"
+//    }
+//    debugImplementation ('io.github.gdutxiaoxu:uetool-base:0.11'){
+//        exclude group: "com.android.support", module: "appcompat-v7"
+//        exclude group: "com.android.support", module: "recyclerview-v7"
+//        exclude group: "com.android.support", module: "support-v4"
+//    }
+//    releaseImplementation 'io.github.gdutxiaoxu:uetool-no-op:0.11'
 
     compileOnly 'me.ele:lancet-base:1.0.6'
 

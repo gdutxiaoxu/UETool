@@ -1,6 +1,6 @@
 package me.ele.uetool.base.item;
 
-import android.support.annotation.IntDef;
+
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,6 +16,8 @@ import static me.ele.uetool.base.item.EditTextItem.Type.TYPE_TEXT;
 import static me.ele.uetool.base.item.EditTextItem.Type.TYPE_TEXT_COLOR;
 import static me.ele.uetool.base.item.EditTextItem.Type.TYPE_TEXT_SIZE;
 import static me.ele.uetool.base.item.EditTextItem.Type.TYPE_WIDTH;
+
+import androidx.annotation.IntDef;
 
 public class EditTextItem extends ElementItem {
 
@@ -37,17 +39,7 @@ public class EditTextItem extends ElementItem {
         return type;
     }
 
-    @IntDef({
-            TYPE_TEXT,
-            TYPE_TEXT_SIZE,
-            TYPE_TEXT_COLOR,
-            TYPE_WIDTH,
-            TYPE_HEIGHT,
-            TYPE_PADDING_LEFT,
-            TYPE_PADDING_RIGHT,
-            TYPE_PADDING_TOP,
-            TYPE_PADDING_BOTTOM,
-    })
+
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {
         int TYPE_TEXT = 1;
