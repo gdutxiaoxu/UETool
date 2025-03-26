@@ -6,6 +6,7 @@ import androidx.annotation.IntDef;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 import me.ele.uetool.base.DimenUtil;
@@ -31,6 +32,8 @@ public class TransparentActivity extends AppCompatActivity {
             finish();
             return;
         }
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         Util.setStatusBarColor(getWindow(), Color.TRANSPARENT);
         Util.enableFullscreen(getWindow());
         setContentView(R.layout.uet_activity_transparent);
