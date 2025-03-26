@@ -2,13 +2,18 @@ package me.ele.uetool;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.IntDef;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import me.ele.uetool.base.DimenUtil;
 
 import java.lang.annotation.Retention;
@@ -19,6 +24,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static me.ele.uetool.TransparentActivity.Type.*;
 
 public class TransparentActivity extends AppCompatActivity {
+
+
+    static final String TAG = "TransparentActivity";
 
     public static final String EXTRA_TYPE = "extra_type";
 
@@ -32,8 +40,14 @@ public class TransparentActivity extends AppCompatActivity {
             finish();
             return;
         }
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Log.i(TAG, "onCreate: requestWindowFeature");
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            Log.i(TAG, "onCreate: requestWindowFeature supportActionBar " + supportActionBar);
+            supportActionBar.hide();
+        }
         Util.setStatusBarColor(getWindow(), Color.TRANSPARENT);
         Util.enableFullscreen(getWindow());
         setContentView(R.layout.uet_activity_transparent);
